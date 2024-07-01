@@ -1,0 +1,653 @@
+{
+	"info": {
+		"_postman_id": "a8f3b252-d8de-4a5a-bb79-fe69915ade97",
+		"name": "innov8ors",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "27174168"
+	},
+	"item": [
+		{
+			"name": "api",
+			"item": [
+				{
+					"name": "Login Admin",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Log the raw response text",
+									"const responseText = pm.response.text();",
+									"console.log('Raw response text:', responseText);",
+									"",
+									"// Check if the response is empty",
+									"if (responseText) {",
+									"    try {",
+									"        // Parse the response as JSON",
+									"        const responseJson = pm.response.json();",
+									"        console.log('Response JSON:', responseJson);",
+									"",
+									"        // Check for the JWT token in the expected key",
+									"        const jwt = responseJson.Bearer || responseJson.token; // Adjust if the token is under a different key",
+									"        if (jwt) {",
+									"            // Set the JWT token in globals",
+									"            pm.globals.set('jwt_admin', `${jwt}`);",
+									"            console.log('JWT set as jwt_admin:', jwt);",
+									"        } else {",
+									"            console.error('JWT not found in response JSON:', responseJson);",
+									"        }",
+									"    } catch (e) {",
+									"        // Log parsing errors",
+									"        console.error('Error parsing response JSON:', e.message);",
+									"    }",
+									"} else {",
+									"    console.error('Received an empty response.');",
+									"}",
+									"",
+									"// Check and log the Content-Type of the response",
+									"const contentType = pm.response.headers.get('Content-Type');",
+									"console.log('Response Content-Type:', contentType);",
+									"if (!contentType.includes('application/json')) {",
+									"    console.error('Unexpected Content-Type:', contentType);",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"test4@email.com\",\n    \"password\": \"test4\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/api/v1/auth/login",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login Advisor",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const responseJson = pm.response.json();",
+									"const jwt = responseJson.Bearer;",
+									"",
+									"pm.globals.set(\"jwt_advisor\", `${jwt}`);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"chrislima@inatel.br\",\n    \"password\": \"newAdvisor\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/api/v1/auth/login",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login Member",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const responseJson = pm.response.json();",
+									"const jwt = responseJson.Bearer;",
+									"",
+									"pm.globals.set(\"jwt_member\", `${jwt}`);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"test5@email.com\",\n    \"password\": \"test5\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/api/v1/auth/login",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Advisor Projects",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt_advisor}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/api/v1/advisor",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"advisor"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Advisor Project Details",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt_advisor}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/api/v1/advisor/3",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"advisor",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Member Projects",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt_member}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/api/v1/member",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"member"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Member Project Details",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt_member}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/api/v1/member/3",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"member",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Admin Team Register",
+					"request": {
+					  "auth": {
+						"type": "bearer",
+						"bearer": [
+						  {
+							"key": "token",
+							"value": "{{jwt_admin}}",
+							"type": "string"
+						  }
+						]
+					  },
+					  "method": "POST",
+					  "header": [],
+					  "body": {
+						"mode": "raw",
+						"raw": {
+						  "teamName": "{{teamName}}",
+						  "members": [
+							{
+							  "name": "{{member1_name}}",
+							  "email": "{{member1_email}}"
+							},
+							{
+							  "name": "{{member2_name}}",
+							  "email": "{{member2_email}}"
+							},
+							{
+								"name": "{{member3_name}}",
+								"email": "{{member3_email}}"
+							},
+							{
+								"name": "{{member4_name}}",
+								"email": "{{member4_email}}"
+							}
+						  ],
+						  "advisor": {
+							"name": "{{advisor_name}}",
+							"email": "{{advisor_email}}"
+						  }
+						},
+						"options": {
+						  "raw": {
+							"language": "json"
+						  }
+						}
+					  },
+					  "url": {
+						"raw": "{{URL}}/api/v1/adm/teams/register",
+						"host": [
+						  "{{URL}}"
+						],
+						"path": [
+						  "api",
+						  "v1",
+						  "adm",
+						  "teams",
+						  "register"
+						]
+					  }
+					},
+					"response": []
+				},
+				{
+					"name": "Admin Teams",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt_admin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/api/v1/adm/teams",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"adm",
+								"teams"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Admin Team",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt_admin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/api/v1/adm/teams/3",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"adm",
+								"teams",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Admin Teams By Phase",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt_admin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/api/v1/adm/fetin-stages/1",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"adm",
+								"fetin-stages",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Admin Team Name",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt_admin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"newTeamName\": {{teamName}} }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/api/v1/adm/teams/3/name",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"adm",
+								"teams",
+								"3",
+								"name"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Admin Team Advisor",
+					"request": {
+					  "auth": {
+						"type": "bearer",
+						"bearer": [
+						  {
+							"key": "token",
+							"value": "{{jwt_admin}}",
+							"type": "string"
+						  }
+						]
+					  },
+					  "method": "PUT",
+					  "header": [],
+					  "body": {
+						"mode": "raw",
+						"raw": {
+						  "newAdvisor": {
+							"name": "{{newAdvisor_name}}",
+							"email": "{{newAdvisor_email}}",
+							"role": "ADVISOR"
+						  }
+						},
+						"options": {
+						  "raw": {
+							"language": "json"
+						  }
+						}
+					  },
+					  "url": {
+						"raw": "{{URL}}/api/v1/adm/teams/3/advisor",
+						"host": [
+						  "{{URL}}"
+						],
+						"path": [
+						  "api",
+						  "v1",
+						  "adm",
+						  "teams",
+						  "3",
+						  "advisor"
+						]
+					  }
+					},
+					"response": []
+				},
+				{
+					"name": "Admin Team Status",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt_admin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"isActive\": false\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/api/v1/adm/teams/2/status",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"adm",
+								"teams",
+								"2",
+								"status"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Admin Phases",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt_admin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/api/v1/adm/fetin-stages",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"adm",
+								"fetin-stages"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Docs",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt_admin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/swagger-ui.html",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"swagger-ui.html"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "Testing remote API calls to Google Cloud Run."
+		}
+	]
+}
