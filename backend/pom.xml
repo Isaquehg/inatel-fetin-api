@@ -106,21 +106,6 @@
 			<version>2.5.0</version>
 		</dependency>
 
-		<!-- Secret Manager Starter
-		<dependency>
-			<groupId>com.google.cloud</groupId>
-			<artifactId>spring-cloud-gcp-starter-secretmanager</artifactId>
-			<version>5.0.4</version>
-		</dependency>
-		-->
-
-		<!-- Google Auth
-		<dependency>
-			<groupId>com.google.auth</groupId>
-			<artifactId>google-auth-library-oauth2-http</artifactId>
-			<version>1.23.0</version>
-		</dependency>
-		-->
 	</dependencies>
 
 	<build>
@@ -160,7 +145,7 @@
 						<image>eclipse-temurin:17-jre</image>
 					</from>
 					<to>
-						<image>gcr.io/innov8ors/github-actions-service</image>
+						<image>gcr.io/project-id/gcp-service</image>
 					</to>
 					<container>
 						<ports>
